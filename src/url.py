@@ -29,13 +29,16 @@ if domain_leftover.find("//") == 0:
     if domain_leftover[0] == "/":
         fail()
     
+    if domain_leftover.count("/") == 0:
+        domain_leftover += "/"
+    
     authority, domain_leftover = domain_leftover.split("/", 1)
 
 path = domain_leftover
 
 authority, userinfo, host, port = parse_authority(authority)
 
-# --Printing the url info
+# --Printing the url info--
 print(f"Schema: {schema}")
 
 if userinfo is not None:
@@ -45,12 +48,17 @@ if userinfo is not None:
     if port is not None:
         print(f"Port: {port}")
 else:
-    sub_domain, top_domain = authority.rsplit(".", 1)
-    hostname, sub_domain = sub_domain.split(".", 1)
+    hostname, top_domain = authority.rsplit(".", 1)
+    sub_domain = None
+    if hostname.count(".") != 0:
+        hostname, sub_domain = hostname.split(".", 1)
+
     print(f"Top level domain (TLD): {top_domain}")
-    print(f"Sub domain(s): {sub_domain}")
+    if sub_domain is not None:
+        print(f"Sub domain(s): {sub_domain}")
     print(f"Hostname: {hostname}")
 
 print(f"Path: /{path}")
 
-# Todo- implement the queries and fragments info
+# Todo- implement the parameters and anchor info
+# Fix the parse_authority, we can have a port without a username 
