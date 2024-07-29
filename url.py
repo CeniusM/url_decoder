@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 from io_utils import *
 from str_utils import *
 from url_utils import *
